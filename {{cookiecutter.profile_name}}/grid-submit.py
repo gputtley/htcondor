@@ -28,7 +28,7 @@ sub_dict = {
 
 if "resources" in job_properties.keys():
     for line in job_properties["resources"]:
-        sub_dict[line.split("=")[0]] = line.split("=")[1]
+        sub_dict[line.split("=")[0].replace(" ","")] = line.split("=")[1].replace(" ","")
 
 sub = htcondor.Submit(sub_dict)
 
