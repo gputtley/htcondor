@@ -26,8 +26,8 @@ sub_dict = {
     "getenv": "True",
 }
 
-if "resources" in job_properties.keys():
-    for line in job_properties["resources"]:
+if "params" in job_properties.keys():
+    for line in job_properties["params"]:
         sub_dict[line.split("=")[0].replace(" ","")] = line.split("=")[1].replace(" ","")
 
 sub = htcondor.Submit(sub_dict)
