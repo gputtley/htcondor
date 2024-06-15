@@ -25,17 +25,13 @@ sub = htcondor.Submit(
         "output": join(jobDir, "condor.out"),
         "error": join(jobDir, "condor.err"),
         "getenv": "True",
-        "request_cpus": str(job_properties["threads"]),
     }
 )
 
-request_memory = job_properties["resources"].get("mem_mb", None)
-if request_memory is not None:
-    sub["request_memory"] = str(request_memory)
+if "resources" in job_properties.keys():
+    for line in job_properties["resources"]:
+        sub[line.split("=")[0]] = line.split("=")[1]
 
-request_disk = job_properties["resources"].get("disk_mb", None)
-if request_disk is not None:
-    sub["request_disk"] = str(request_disk)
 
 schedd = htcondor.Schedd()
 clusterID = schedd.submit(sub)
