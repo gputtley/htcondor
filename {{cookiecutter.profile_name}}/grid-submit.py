@@ -9,16 +9,6 @@ from uuid import uuid4
 
 from snakemake.utils import read_job_properties
 
-
-def camel_to_snake(name):
-    # Add an underscore before each uppercase letter (except at the beginning of the string)
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    # Add an underscore before uppercase letters that are followed by lowercase letters or the end of the string
-    s2 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1)
-    # Convert the entire string to lowercase
-    return s2.lower()
-
-
 jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)
 
@@ -37,13 +27,10 @@ sub_dict = {
 }
 
 if "params" in job_properties.keys():
-    for line in job_properties["params"]:
-        key = line.split("=")[0].replace(" ","")
-        val = line.split("=")[1].replace(" ","")
-        if "+" in key:
-            sub_dict[key] = val
-        else:
-            sub_dict[camel_to_snake(key)] = val
+    if "submit_options" in job_properties["params"].keys():
+        for key, val in job_properties["submit_options"]["params"]:
+            sub_dict[val.split("=")[0]] = val.split("=")[1]
+
 
 sub = htcondor.Submit(sub_dict)
 
