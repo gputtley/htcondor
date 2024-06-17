@@ -19,7 +19,7 @@ makedirs(jobDir, exist_ok=True)
 sub_dict = {
     "executable": "/bin/bash",
     "arguments": jobscript,
-    "max_retries": "5",
+    "max_retries": "1",
     "log": join(jobDir, "condor.log"),
     "output": join(jobDir, "condor.out"),
     "error": join(jobDir, "condor.err"),
