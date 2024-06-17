@@ -28,7 +28,7 @@ sub_dict = {
 
 if "params" in job_properties.keys():
     if "submit_options" in job_properties["params"].keys():
-        for key, val in job_properties["params"]["submit_options"].items():
+        for val in job_properties["params"]["submit_options"]:
             sub_dict[val.split("=")[0]] = val.split("=")[1]
 
 
